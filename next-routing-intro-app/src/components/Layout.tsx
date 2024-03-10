@@ -1,17 +1,39 @@
 import Link from "next/link"
 import { ReactNode } from "react"
-
+import styled from "styled-components";
 import { inter } from "@/fonts/fonts"
 
 interface Props {
     children: ReactNode
 }
 
+const CustomLayout = styled.div({
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column'
+})
+
+const CustomNav = styled.nav({
+    fontSize: 16,
+    flexDirection: 'row',
+    backgroundColor: '#293241',
+    padding: 26
+})
+
+const CustomUl = styled.ul({
+    justifyContent: 'space-between',
+    display: 'flex',
+    listStyle: 'none',
+    fontSize: 20,
+});
+
+
+
 export default function Layout({ children }: Props) {
     return (
-        <div style={{ fontSize: 16, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-            <nav style={{ flexDirection: 'row', paddingTop: 0 }}>
-                <ul className={inter.className} style={{ justifyContent: 'space-between', display: 'flex', listStyle: 'none', fontSize: 20, backgroundColor: '#293241', padding: 26 }}>
+        <CustomLayout>
+            <CustomNav>
+                <CustomUl className={inter.className}>
                     <li>
                         <Link href="/about">About</Link>
                     </li>
@@ -27,8 +49,8 @@ export default function Layout({ children }: Props) {
                     <li>
                         <Link href="/blog">Blog</Link>
                     </li>
-                </ul>
-            </nav>
+                </CustomUl>
+            </CustomNav>
             <header className={inter.className}>
                 <h1>Header</h1>
             </header>
@@ -40,6 +62,7 @@ export default function Layout({ children }: Props) {
             </footer>
 
 
-        </div>
+        </CustomLayout>
     )
 }
+
