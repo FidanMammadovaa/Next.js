@@ -1,10 +1,9 @@
 import Link from "next/link"
 import { ReactNode } from "react"
-import styled from "styled-components";
 import { inter } from "@/fonts";
-import { CustomLayout } from "./CustomLayout";
 import { CustomNav } from "./CustomNav";
 import { CustomUl } from "./CustomUl";
+import { CustomDiv } from "./CustomDiv";
 
 interface Props {
     children: ReactNode
@@ -13,7 +12,7 @@ interface Props {
 
 export default function Layout({ children }: Props) {
     return (
-        <CustomLayout>
+        <CustomDiv>
             <CustomNav>
                 <CustomUl className={inter.className}>
                     <li>
@@ -30,17 +29,9 @@ export default function Layout({ children }: Props) {
                     </li>
                 </CustomUl>
             </CustomNav>
-            {/* <header className={inter.className}>
-                <h1>Header</h1>
-            </header> */}
             {children}
-            {/* <footer className={inter.className}>
-                <h1>
-                    Footer
-                </h1>
-            </footer> */}
 
 
-        </CustomLayout>
+        </CustomDiv>
     )
 }
