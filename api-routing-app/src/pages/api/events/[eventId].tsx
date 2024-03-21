@@ -20,7 +20,7 @@ export default function handler(
         if (req.method === "PUT") {
 
             const updatedEvent = req.body.updatedEvent
-            events[Number(eventId) - 1] = updatedEvent 
+            events[eventIndex] = updatedEvent 
             return res.status(200).json(updatedEvent)
         }
 
