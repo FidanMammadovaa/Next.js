@@ -3,7 +3,6 @@ import { CustomDiv } from "@/components/CustomDiv"
 import { CustomInput } from "@/components/CustomInput"
 import { inter } from "@/fonts"
 import { Event } from "@/types/Event"
-import { headers } from "next/headers"
 import { useRouter } from "next/router"
 import { useState } from "react"
 
@@ -52,11 +51,16 @@ export default function Event({ event }: Props) {
             }
         })
 
-        router.back()
+        handleGoBack()
     }
 
+    const handleGoBack = () => 
+    {
+        router.back()
+    }
     return (
         <CustomDiv style={{ padding: 10 }} className={inter.className}>
+            <CustomButton onClick={handleGoBack}>Go back</CustomButton>
             <p>Id: {eventData.id}</p>
             <p>Title: </p>
             <CustomInput onChange={(e) => handleChangeTitle(e.target.value)} value={eventData.title} />
