@@ -8,7 +8,6 @@ import { inter } from "@/fonts"
 import { Event } from "@/types/Event"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { events } from "../../../../data/events"
 
 interface Props {
     params:
@@ -21,17 +20,19 @@ export default function Event({ params }: Props) {
 
     const router = useRouter()
     const { eventId } = params
-    const [eventData, setEventData] = useState<Event>({ id: -1, title: "", description: "" })
+    const [eventData, setEventData] = useState({ id: 0, title: "", description: "" })
 
     useEffect(() => {
-        let event = events.find((event) => event.id === Number(eventId))
-        if (event) {
+        const fetchData = async () => {
+            let response = await fetch(`/events/${eventId}/api`)
+            console.log(response);
 
+            let event = await response.json()
             setEventData(event)
         }
-    }, [params.eventId])
+        fetchData()
+    }, [eventId])
 
-    const eventIndex = events.findIndex(event => event.id === Number(eventId))
     const handleChangeTitle = (title: string) => {
         setEventData(prev => (
             { ...prev, title: title }
@@ -45,8 +46,16 @@ export default function Event({ params }: Props) {
 
     const updateEvent = async () => {
         if (eventData.title && eventData.description) {
+            let response = await fetch(`/events/${eventId}/api`, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": 'application/json',
+                },
+                body: JSON.stringify(eventData)
+            })
 
-            events[eventIndex] = eventData
+            let event = await response.json()
+            setEventData(event)
         }
         else {
             alert("Fields can't empty")
@@ -54,13 +63,16 @@ export default function Event({ params }: Props) {
     }
 
     const deleteEvent = async () => {
-        
-        events.splice(eventIndex, 1)
+        await fetch(`/events/${eventId}/api`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": 'application/json',
+            }
+        })
         handleGoBack()
     }
-    
-    const handleGoBack = () => 
-    {
+
+    const handleGoBack = () => {
         router.back()
     }
     return (

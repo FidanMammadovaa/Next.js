@@ -7,13 +7,12 @@ import { inter } from "@/fonts";
 import { Event } from "@/types/Event";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { events } from "../../../../data/events";
 
 
 
 export default function AddEvent() {
     const router = useRouter()
-    const [eventData, setEventData] = useState<Event>({ id: -1, title: "", description: "" });
+    const [eventData, setEventData] = useState<Event>({ id: 0, title: "", description: ""});
 
     const handleChangeTitle = (title: string) => {
         setEventData(prev => (
@@ -28,23 +27,23 @@ export default function AddEvent() {
 
     const handleAddEvent = async () => {
         if (eventData.title && eventData.description) {
-            const newEvent = {
-                id: events.length + 1, 
-                title: eventData.title,
-                description: eventData.description
-            };
-            events.push(newEvent)
+            await fetch(`/events/api`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'application/json',
+                },
+                body: JSON.stringify(eventData)
+            })
             router.back()
         }
-        else
-        {
+        else {
             alert("Field's can't be empty")
         }
 
     }
 
     return (
-        <CustomDiv style={{padding: 10}} className={inter.className}>
+        <CustomDiv style={{ padding: 10 }} className={inter.className}>
             <p>Title: </p>
             <CustomInput onChange={(e) => handleChangeTitle(e.target.value)} value={eventData.title} />
             <p>Description:</p>
